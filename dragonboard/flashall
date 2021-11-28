@@ -1,0 +1,43 @@
+#!/bin/sh
+# 
+# Copyright (C) 2021 OpenStick Project
+# Author : HandsomeYingyan <handsomeyingyan@gmail.com>
+#
+
+# flash lk2nd 
+# to get modemst1.bin modemst2.bin fsc.bin fsg.bin
+
+#fastboot erase boot
+#fastboot flash boot lk2nd.img
+#fastboot reboot
+#sleep 5
+#fastboot oem dump fsc && fastboot get_staged fsc.bin
+#fastboot oem dump fsg && fastboot get_staged fsg.bin
+#fastboot oem dump modemst1 && fastboot get_staged modemst1.bin
+#fastboot oem dump modemst2 && fastboot get_staged modemst2.bin
+#fastboot reboot bootloader
+#sleep 5
+
+
+# Now We Got All Of Them To Rock Linux!
+fastboot flash partition gpt_both0.bin
+fastboot flash hyp hyp.mbn
+fastboot flash rpm rpm.mbn
+fastboot flash sbl1 sbl1.mbn
+fastboot flash tz tz.mbn
+fastboot flash fsc fsc.bin
+fastboot flash fsg fsg.bin
+fastboot flash modemst1 modemst1.bin
+fastboot flash modemst2 modemst2.bin
+fastboot flash aboot aboot.bin
+fastboot flash cdt sbc_1.0_8016.bin
+fastboot erase boot
+fastboot erase rootfs
+
+fastboot reboot
+sleep 5
+# flash postmarket os
+fastboot flash rootfs rootfs.img
+fastboot flash boot boot.img
+fastboot reboot
+
